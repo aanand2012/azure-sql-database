@@ -20,9 +20,9 @@ jobs:
         # The jdbc url to use to connect to the database
           url: 'jdbc:sqlserver://poc-sql-server-1234.database.windows.net:1433;database=pocDatabase;user=pocUser@poc-sql-server-1234;password=Germany!123;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;'
           # The user to use to connect to the database
-          #user: # optional
+          user: 'pocUser@poc-sql-server-1234'
           # The password to use to connect to the database
-          #password: # optional
+          password: 'Germany!123'
           # Comma-separated list of locations to scan recursively for migrations
           locations: ./create-tables.sql
           # The SQL statements to run to initialize a new database connection immediately after opening it
