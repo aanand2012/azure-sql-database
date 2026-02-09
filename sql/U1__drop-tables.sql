@@ -6,7 +6,7 @@ DELETE from Employee
 DELETE from Department
 
 -- DROP Department table
-DROP table Department
+DROP table Employee
 
 -- DROP Employee table
-DROP table employee
+DROP table Department
