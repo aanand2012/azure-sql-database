@@ -1,1 +1,29 @@
+name: Flyway Migration
 
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sql/**'
+
+jobs:
+  run-flyway:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Flyway Migrations
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/sql:/flyway/sql \
+            flyway/flyway:latest \
+            -url="jdbc:sqlserver://poc-sql-server-1234.database.windows.net:1433;databaseName=pocDatabase" \
+            -user="pocUser" \
+            -password="Germany!123" \
+            -connectRetries=10 \
+            -baselineOnMigrate=true \
+            migrate
