@@ -12,17 +12,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Flyway CLI
-        run: |
-          FLYWAY_VERSION="10.20.0" # Specify your desired version
-          wget -qO- https://download.red-gate.com{FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}-linux-x64.tar.gz | tar -xvz
-          sudo ln -s $(pwd)/flyway-${FLYWAY_VERSION}/flyway /usr/local/bin/flyway
-
-      - name: Run Flyway Migrate
-        run: |
-          flyway migrate \
-            -url="${{ secrets.FLYWAY_URL }}" \
-            -user="${{ secrets.FLYWAY_USER }}" \
-            -password="${{ secrets.FLYWAY_PASSWORD }}" \
-            -locations="filesystem:./sql" \
-            -connectRetries=10
+      - name: Flyway Migration
+  # You may pin to the exact commit or the version.
+  # uses: joshuaavalon/flyway-action@81e2f01520d51d5fb5cb2ef828229adc5820aa2d
+        uses: joshuaavalon/flyway-action@v3.0.0
+        with:
+        # The jdbc url to use to connect to the database
+          url: 'jdbc:sqlserver://poc-sql-server-1234.database.windows.net:1433;database=pocDatabase;user=pocUser@poc-sql-server-1234;password=Germany!123;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;'
+          # The user to use to connect to the database
+          #user: # optional
+          # The password to use to connect to the database
+          #password: # optional
+          # Comma-separated list of locations to scan recursively for migrations
+          locations: ./create-tables.sql
+          # The SQL statements to run to initialize a new database connection immediately after opening it
+          initSql: # optional
+          
