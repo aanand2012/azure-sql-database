@@ -1,0 +1,28 @@
+
+name: Database Migration (Flyway)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Flyway CLI
+        run: |
+          FLYWAY_VERSION="10.20.0" # Specify your desired version
+          wget -qO- https://download.red-gate.com{FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}-linux-x64.tar.gz | tar -xvz
+          sudo ln -s $(pwd)/flyway-${FLYWAY_VERSION}/flyway /usr/local/bin/flyway
+
+      - name: Run Flyway Migrate
+        run: |
+          flyway migrate \
+            -url="${{ secrets.FLYWAY_URL }}" \
+            -user="${{ secrets.FLYWAY_USER }}" \
+            -password="${{ secrets.FLYWAY_PASSWORD }}" \
+            -locations="filesystem:./sql" \
+            -connectRetries=10
