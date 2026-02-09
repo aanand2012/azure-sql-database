@@ -21,7 +21,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}/sql:/flyway/sql \
             flyway/flyway:latest \
-            -url="jdbc:sqlserver://poc-sql-server-1234.database.windows.net:1433;databaseName=pocDatabase" \
+            -url="jdbc:sqlserver://poc-sql-server-1234.database.windows.net:1433;databaseName=pocDatabase_Copy" \
             -user="pocUser" \
             -password="Germany!123" \
             -connectRetries=10 \
